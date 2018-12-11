@@ -6,9 +6,10 @@ const path = require('path');
 
 const Datastore = require('./datastore.js');
 const data = require('./data.js');
+const Stats = require('./stats.js');
 
 const datastore = new Datastore(data);
-
+const stats = new Stats(datastore);
 
 // App
 const app = express();
@@ -76,6 +77,14 @@ app.get('/items', (req, res) => {
 
   const items = datastore.getItems();
   res.status(200).send(JSON.stringify(items));
+});
+
+app.get('/user/:userId/stats', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  const userId = req.params.userId;
+
+  const statsResults = stats.computeStats(userId);
+  res.status(200).send(JSON.stringify(statsResults));
 });
 
 const port = process.env.PORT || 8080;

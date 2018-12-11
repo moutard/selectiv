@@ -17,9 +17,9 @@ exports.users = [
 ];
 
 exports.transactions = [
-  {"itemId": "1", "price_sold": 10, "userId": "12", "label": "chocolat"},
-  {"itemId": "2", "price_sold": 100, "userId": "14", "label": "fleur"},
-  {"itemId": "3", "price_sold": 10, "userId": "12", "label": "sapin"}
+  {"itemId": "1", "priceSold": 10, "userId": "12", "label": "chocolat"},
+  {"itemId": "2", "priceSold": 100, "userId": "14", "label": "fleur"},
+  {"itemId": "3", "priceSold": 10, "userId": "12", "label": "sapin"}
 ]
 
 exports.items = [

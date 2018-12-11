@@ -116,7 +116,7 @@ function Report(props) {
   if (transactions && transactions.length > 0) {
     const transactionsList = transactions.map(function(item) {
       return (
-          <Transaction name={item.label} price={item.price_sold} currency={item.currency} />
+          <Transaction name={item.label} price={item.priceSold} currency={item.currency} />
       )
     }
 

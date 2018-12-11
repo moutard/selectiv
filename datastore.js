@@ -47,4 +47,10 @@ module.exports = class Datastore {
     const filteredTransactions = transactions.filter(transaction => transaction.userId == userId)
     return JSON.parse(JSON.stringify(filteredTransactions));
   }
+
+  addTransaction(transaction) {
+    this._data.transactions.push(transaction)
+    return JSON.parse(JSON.stringify(this._data.transactions));
+
+  }
 }

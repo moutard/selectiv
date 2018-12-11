@@ -1,6 +1,10 @@
 'use strict';
 
 const express = require('express');
+const bodyParser = require('body-parser');
+const multer = require('multer'); // v1.0.5
+const upload = multer(); // for parsing multipart/form-data
+
 const util = require('util');
 const path = require('path');
 
@@ -13,6 +17,8 @@ const stats = new Stats(datastore);
 
 // App
 const app = express();
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 app.get('/', (req, res) => {
@@ -72,6 +78,33 @@ app.get('/user/:userId/transactions', (req, res) => {
   }));
 });
 
+app.put('/user/:userId/transactions', upload.array(), (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+
+  const userId = req.params.userId;
+  const transacBody = req.body;
+  if (!transacBody.itemId && !transacBody.priceSold) {
+    res.status(400).send(JSON.stringify({
+      "Error": "itemId and priceSold are mandatory"
+    }));
+    return;
+  }
+  const transaction = {
+    "itemId": transacBody.itemId,
+    "priceSold": transacBody.priceSold,
+    "userId": userId,
+    "label": transacBody.label
+  }
+
+  var transactions = datastore.addTransaction(transaction);
+  if (transactions) {
+    res.send(JSON.stringify(transactions));
+    return;
+  }
+  res.status(404).send(JSON.stringify({
+    "Error": "User id: " + userId + " doesn't exist"
+  }));
+});
 app.get('/items', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 

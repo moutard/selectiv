@@ -21,13 +21,13 @@ module.exports = class Stats {
     var transactions = this._datastore.getTransactionsPerUserId(userId);
     for (var transac of transactions) {
       stats.numberOfSales += 1;
-      stats.totalSum += transac.price_sold;
+      stats.totalSum += transac.priceSold;
       if (stats.perPack[transac.itemId]) {
         stats.perPack[transac.itemId]['numberOfPacks'] += 1;
-        stats.perPack[transac.itemId]['totalPrice'] += transac.price_sold;
+        stats.perPack[transac.itemId]['totalPrice'] += transac.priceSold;
 
       } else {
-        stats.perPack[transac.itemId] = {'packId': transac.itemId, 'numberOfPacks': 1, 'totalPrice': transac.price_sold}
+        stats.perPack[transac.itemId] = {'packId': transac.itemId, 'numberOfPacks': 1, 'totalPrice': transac.priceSold}
       }
     }
 
